@@ -1,0 +1,70 @@
+name: Scrape Table Sums
+
+on:
+  push:                      # Runs whenever you push code
+  workflow_dispatch:         # Also lets you run it manually
+
+jobs:
+  scrape:
+    runs-on: ubuntu-latest   # Use a Linux machine in the cloud
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+
+      - name: Install Playwright and dependencies - 23f2002478@ds.study.iitm.ac.in
+        run: |
+          npm init -y
+          npm install playwright
+          npx playwright install chromium
+          npx playwright install-deps chromium
+
+      - name: Run scraper
+        run: node scrape.js
+```
+
+> **Important:** Notice that your email address is in the `name:` of the Install step — that's exactly what the assignment requires.
+
+4. Click **"Commit new file"**
+
+---
+
+## Step 5: Watch It Run
+
+1. Go to your repository → click the **"Actions"** tab
+2. You should see a workflow run already in progress (because you just pushed files)
+3. Click on it → click on the **"scrape"** job → expand the **"Run scraper"** step
+4. You'll see the sums printed for each URL and the grand total at the bottom
+
+If it's not running, click **"Run workflow"** → **"Run workflow"** (green button) to trigger it manually.
+
+---
+
+## Step 6: Create a GitHub Personal Access Token (PAT)
+
+The assignment asks for your repo URL + a token so they can verify your logs.
+
+1. Click your **profile picture** (top right on GitHub) → **Settings**
+2. Scroll all the way down the left sidebar → click **"Developer settings"**
+3. Click **"Personal access tokens"** → **"Tokens (classic)"**
+4. Click **"Generate new token"** → **"Generate new token (classic)"**
+5. Give it a name like `assignment-token`
+6. Set expiration to **30 days** (enough for grading)
+7. Under **"Select scopes"**, check:
+   - `repo` (full control of repositories)
+   - `workflow` (to read action logs)
+8. Scroll down → click **"Generate token"**
+9. **Copy the token immediately** — you can't see it again after you leave the page!
+
+---
+
+## Step 7: Submit Your Answer
+
+Your final answer should look like:
+```
+https://github.com/YOUR_USERNAME/playwright-scraper ghp_xxxxxxxxxxxxxxxxxxxx
